@@ -1,17 +1,22 @@
 name: Workflow test labo 8
 
-on: push
+on: 
+  push:
+    branches:
+      - main  # Cambia si el trigger es en una rama diferente
 
 jobs:
   tests:
     runs-on: ubuntu-latest
 
     permissions:
-      security-events: write
+      contents: read        # Permiso para leer el contenido del repositorio
+      security-events: write  # Permiso para escribir eventos de seguridad (como los de linting)
 
     steps:
       - name: Bajar código
         uses: actions/checkout@v4
+      
       - name: Analizar código
         uses: advanced-security/python-lint-code-scanning-action@v1
         with:
