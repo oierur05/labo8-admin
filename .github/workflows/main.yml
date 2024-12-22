@@ -56,5 +56,4 @@ jobs:
       -
         name: Deploy to GKE
         run: |
-          kubectl apply -f deployment.yaml
-          kubectl rollout restart deployment/front-web
+          kubectl apply -f .
