@@ -1,0 +1,53 @@
+name: Deploy to GKE
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Descargar el código del repositorio
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # 2. Autenticarse en Docker Hub y subir la imagen
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build and Push Docker Image
+      run: |
+        docker build -t <as-laboratorio8-web>:latest .
+        docker tag <as-laboratorio8-web>:latest ${{ secrets.DOCKER_USERNAME }}/<as-laboratorio8-web>:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/<as-laboratorio8-web>:latest
+
+    # 3. Autenticarse en Google Cloud
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v2
+      with:
+        credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+    # 4. Configurar la autenticación de Kubernetes Engine
+    - name: Setup Google Cloud SDK
+      uses: google-github-actions/setup-gcloud@v2
+      with:
+        install_components: gke-gcloud-auth-plugin
+
+    # 5. Obtener credenciales de GKE
+    - name: Get GKE Credentials
+      uses: google-github-actions/get-gke-credentials@v2
+      with:
+        cluster_name: autopilot-cluster-1
+        location: us-central1
+
+    # 6. Desplegar objetos Kubernetes
+    - name: Deploy to GKE
+      run: |
+        kubectl apply -f deployment.yaml
+        kubectl rollout restart deployment/<nombre_del_deployment>
