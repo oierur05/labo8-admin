@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: front-web
-        image: as-laboratorio-8-web:latest
+        image: oierur05/as-laboratorio-8-web:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 80
