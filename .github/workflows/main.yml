@@ -25,9 +25,9 @@ jobs:
       -
         name: Build and Push Docker Image
         run: |
-          docker build -t <as-laboratorio8-web>:latest .
-          docker tag <as-laboratorio8-web>:latest ${{ secrets.DOCKER_USERNAME }}/<as-laboratorio8-web>:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/<as-laboratorio8-web>:latest
+          docker build -t as-laboratorio-8-web:latest .
+          docker tag as-laboratorio-8-web:latest ${{ secrets.DOCKER_USERNAME }}/as-laboratorio-8-web:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/as-laboratorio-8-web:latest
 
     # 3. Autenticarse en Google Cloud
       -
