@@ -25,7 +25,7 @@ jobs:
       -
         name: Build and Push Docker Image
         run: |
-          docker build -t as-laboratorio-8-web:latest .
+          docker build -t as-laboratorio-8-web:latest ./app
           docker tag as-laboratorio-8-web:latest ${{ secrets.DOCKER_USERNAME }}/as-laboratorio-8-web:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/as-laboratorio-8-web:latest
 
