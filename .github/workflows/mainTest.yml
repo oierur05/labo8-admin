@@ -1,0 +1,39 @@
+name: Run Tests and Linting
+
+on:
+  push:
+    branches:
+      - '*'
+    # Excluimos la rama 'main' para que no ejecute en esa rama
+    # Podrías agregar más ramas si es necesario:
+    # - 'feature/*'  
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      # Paso 1: Descargar el código
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      # Paso 2: Configurar Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8  # Configura la versión de Python que necesitas
+
+      # Paso 3: Instalar dependencias
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Si usas un archivo requirements.txt para dependencias
+
+      # Paso 4: Ejecutar pylint
+      - name: Run Pylint
+        uses: advanced-security/python-lint-code-scanning-action@v1
+        with:
+          linter: pylint
+          # Aquí puedes agregar configuraciones adicionales si lo deseas
+
+      # Otras posibles acciones de pruebas que desees agregar
+
