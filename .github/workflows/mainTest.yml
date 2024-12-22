@@ -1,16 +1,14 @@
-name: Run Tests and Linting
+name: Workflow test labo 8
 
-on:
-  push:
-    branches:
-      - '*'
-    # Excluimos la rama 'main' para que no ejecute en esa rama
-    # Podrías agregar más ramas si es necesario:
-    # - 'feature/*'  
+on: push
 
 jobs:
-  lint:
+  tests:
     runs-on: ubuntu-latest
+
+    permissions:
+      security-events: write
+
     steps:
       - name: Bajar código
         uses: actions/checkout@v4
@@ -18,4 +16,3 @@ jobs:
         uses: advanced-security/python-lint-code-scanning-action@v1
         with:
           linter: pylint
-
